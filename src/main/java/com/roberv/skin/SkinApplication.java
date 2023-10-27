@@ -10,4 +10,6 @@ public class SkinApplication {
 		SpringApplication.run(SkinApplication.class, args);
 	}
 
+
+
 }
