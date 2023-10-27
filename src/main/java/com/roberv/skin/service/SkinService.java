@@ -42,9 +42,10 @@ public class SkinService {
     }
 
     public Skin buySkin(String name) {
-        try {
-            Optional<Skin> foundSkin = findSkinOnJson(name);
 
+        Optional<Skin> foundSkin = findSkinOnJson(name);
+
+        try {
             if (foundSkin.isPresent()) {
                 Skin savedSkin = foundSkin.get();
                 Skin newSkin = new Skin(
@@ -57,7 +58,6 @@ public class SkinService {
                 skinRepository.save(newSkin);
                 return newSkin;
             }
-
             throw new SkinNotFoundException("Skin no encontrada");
         } catch (Exception e) {
             throw new SkinPurchaseException("Error en la compra de la skin", e);
@@ -81,13 +81,12 @@ public class SkinService {
                     .filter(skin -> skin.getName().equalsIgnoreCase(targetName))
                     .findFirst();
         } catch (IOException e) {
-            e.printStackTrace();
-            return Optional.empty();
+            throw new SkinNotFoundException("Está Skin no existe en la lista de Skins");
         }
     }
 
 
-    public List<Skin> getMySkins() {
+    public List<Skin> getAllMySkins() {
         try {
             return skinRepository.findAll();
         } catch (Exception e) {
@@ -107,13 +106,17 @@ public class SkinService {
         }
     }
 
-    public Skin getSkin(Long id) {
-        Optional<Skin> skin = skinRepository.findById(id);
-        return skin.orElseGet(() -> {
-            Skin notFoundSkin = new Skin();
-            notFoundSkin.setName("Skin no encontrada");
-            return notFoundSkin;
-        });
+    public Skin getSkin(String id) {
+        if (!id.matches("\\d+")) {
+            throw new SkinNotFoundException("El ID debe ser un valor numérico válido.");
+        }
+            Long skinId = Long.parseLong(id);
+            Optional<Skin> skin = skinRepository.findById(skinId);
+            if (skin.isPresent()) {
+                return skin.get();
+            } else {
+                throw new SkinNotFoundException("Skin no encontrada");
+            }
     }
 
     public Skin changeSkinColor(Long skinId, String newColor) {
@@ -133,4 +136,6 @@ public class SkinService {
             throw new SkinNotFoundException("No se pudo encontrar una skin con el ID proporcionado: " + skinId);
         }
     }
+
+
 }

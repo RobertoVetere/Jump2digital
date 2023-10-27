@@ -28,7 +28,7 @@ public class SkinController {
 
     @GetMapping("/myskins")
     public List<Skin> getMySkins() {
-        return skinService.getMySkins();
+        return skinService.getAllMySkins();
     }
 
     @PutMapping("/color/{id}")
@@ -52,14 +52,8 @@ public class SkinController {
     }
 
     @GetMapping("/getskin/{id}")
-    public ResponseEntity<Skin> getSkin(@PathVariable("id") Long id) {
+    public ResponseEntity<Skin> getSkin(@PathVariable("id") String id) {
         Skin skin = skinService.getSkin(id);
-
-        if ("Skin no encontrada".equals(skin.getName())) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(skin);
-        }
+        return ResponseEntity.ok(skin);
     }
-
 }
