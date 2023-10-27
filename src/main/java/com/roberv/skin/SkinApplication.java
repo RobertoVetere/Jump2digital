@@ -14,19 +14,12 @@ import java.util.List;
 
 @SpringBootApplication
 @OpenAPIDefinition(info = @Info(title = "API Rest Skins", version = "1", description = "API de prueba para Jump2Digital"))
-public class SkinApplication implements CommandLineRunner {
+public class SkinApplication{
 
 	@Autowired
 	SkinRepository skinRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SkinApplication.class, args);
-	}
-
-	@Override
-	public void run(String... args) throws Exception {
-
-
-
 	}
 }

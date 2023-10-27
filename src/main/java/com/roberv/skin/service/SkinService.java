@@ -40,7 +40,7 @@ public class SkinService {
 
     public Skin buySkin(String name) {
         try {
-            Optional<Skin> foundSkin = findSkin(name);
+            Optional<Skin> foundSkin = findSkinOnJson(name);
 
             if (foundSkin.isPresent()) {
                 Skin savedSkin = foundSkin.get();
@@ -65,13 +65,13 @@ public class SkinService {
             return errorSkin;
         }
     }
+
     /**
      * findSkin(String targetName)
-     *
      * Este metodo encuentra una skin por su nombre de una lista dada skins.json
      * , simulando el consumo de una API externa
      */
-    public Optional<Skin> findSkin(String targetName) {
+    public Optional<Skin> findSkinOnJson(String targetName) {
         ObjectMapper objectMapper = new ObjectMapper();
         TypeReference<List<Skin>> typeReference = new TypeReference<>() {
         };
