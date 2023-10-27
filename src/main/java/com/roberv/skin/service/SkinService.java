@@ -15,4 +15,8 @@ public class SkinService {
     public List<Skin> findAll() {
         return skinRepository.findAll();
     }
+
+    public void buySkin(Skin skin) {
+
+    }
 }

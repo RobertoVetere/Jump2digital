@@ -1,0 +1,96 @@
+[
+  {
+    "id": 1,
+    "nombre": "Skin 1",
+    "tipo": "Tipo 1",
+    "precio": 10.99,
+    "color": "Rojo"
+  },
+  {
+    "id": 2,
+    "nombre": "Skin 2",
+    "tipo": "Tipo 2",
+    "precio": 15.99,
+    "color": "Azul"
+  },
+  {
+    "id": 3,
+    "nombre": "Firestorm",
+    "tipo": "Legendary",
+    "precio": 19.99,
+    "color": "Orange",
+    "descripcion": "Unleash the power of fire with this legendary skin."
+  },
+  {
+    "id": 4,
+    "nombre": "Shadowblade",
+    "tipo": "Epic",
+    "precio": 14.99,
+    "color": "Black",
+    "descripcion": "Embrace the darkness with this sleek and deadly skin."
+  },
+  {
+    "id": 5,
+    "nombre": "Aqua King",
+    "tipo": "Rare",
+    "precio": 9.99,
+    "color": "Blue",
+    "descripcion": "Rule the seas with the Aqua King skin set."
+  },
+  {
+    "id": 6,
+    "nombre": "Galactic Guardian",
+    "tipo": "Legendary",
+    "precio": 19.99,
+    "color": "Purple",
+    "descripcion": "Protect the galaxy as a fearless guardian."
+  },
+  {
+    "id": 7,
+    "nombre": "Steampunk Adventurer",
+    "tipo": "Epic",
+    "precio": 14.99,
+    "color": "Bronze",
+    "descripcion": "Explore new frontiers with a touch of steampunk style."
+  },
+  {
+    "id": 8,
+    "nombre": "Neon Ninja",
+    "tipo": "Rare",
+    "precio": 9.99,
+    "color": "Neon Green",
+    "descripcion": "Strike from the shadows with a neon twist."
+  },
+  {
+    "id": 9,
+    "nombre": "Phantom Sorcerer",
+    "tipo": "Legendary",
+    "precio": 19.99,
+    "color": "Dark Red",
+    "descripcion": "Master the arcane arts with this sorcerer's skin."
+  },
+  {
+    "id": 10,
+    "nombre": "Frostbite Samurai",
+    "tipo": "Epic",
+    "precio": 14.99,
+    "color": "Ice Blue",
+    "descripcion": "Channel the power of ice and steel as a frostbite samurai."
+  },
+  {
+    "id": 11,
+    "nombre": "Rainforest Explorer",
+    "tipo": "Rare",
+    "precio": 9.99,
+    "color": "Green Camo",
+    "descripcion": "Venture into the heart of the jungle with this explorer's skin."
+  },
+  {
+    "id": 12,
+    "nombre": "Pixel Paladin",
+    "tipo": "Epic",
+    "precio": 14.99,
+    "color": "Pixelated",
+    "descripcion": "Defend the realm with retro-style pixel art armor."
+  }
+]
