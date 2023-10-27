@@ -16,7 +16,7 @@ public class Skin {
     private String type;
     private double price;
     private String color;
-    private String descpription;
+    private String description;
 
     public Skin() {
     }
@@ -26,7 +26,7 @@ public class Skin {
         this.type = type;
         this.price = price;
         this.color = color;
-        this.descpription = descpription;
+        this.description = descpription;
     }
 
     public Long getId() {
@@ -65,11 +65,11 @@ public class Skin {
         this.color = color;
     }
 
-    public String getDescpription() {
-        return descpription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescpription(String descpription) {
-        this.descpription = descpription;
+    public void setDescription(String descpription) {
+        this.description = descpription;
     }
 }

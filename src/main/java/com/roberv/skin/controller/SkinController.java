@@ -1,12 +1,20 @@
 package com.roberv.skin.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.roberv.skin.models.Skin;
 import com.roberv.skin.service.SkinService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RestController
@@ -16,10 +24,12 @@ public class SkinController {
     @Autowired
     SkinService skinService;
 
-    @GetMapping("/avaible")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Skin> findAll() {
-        return skinService.findAll();
+    @GetMapping("/available")
+    public String getAvailableSkins() throws IOException {
+        Resource resource = new ClassPathResource("skins.json");
+        InputStream inputStream = resource.getInputStream();
+
+        return new String(FileCopyUtils.copyToByteArray(inputStream), StandardCharsets.UTF_8);
     }
 
     @PostMapping("/buy")
