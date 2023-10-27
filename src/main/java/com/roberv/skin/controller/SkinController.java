@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-
-
 @RestController
 @RequestMapping(value = "/skins")
 public class SkinController {
@@ -20,11 +18,12 @@ public class SkinController {
     @Autowired
     SkinService skinService;
 
-    @GetMapping("/available")
+    @GetMapping("/avaible")
     @ResponseStatus(HttpStatus.OK)
     public List<Skin> findAll() {
         return skinService.findAll();
     }
+
 
 
 }
