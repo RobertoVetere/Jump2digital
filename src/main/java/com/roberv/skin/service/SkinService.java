@@ -1,4 +1,5 @@
 package com.roberv.skin.service;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.roberv.skin.models.Skin;
@@ -9,6 +10,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -36,18 +38,39 @@ public class SkinService {
         }
     }
 
-    public ResponseEntity<String> buySkin(String name) {
+    public Skin buySkin(String name) {
         try {
-            Skin savedSkin = findSkin(name).get();
-            skinRepository.save(savedSkin);
-            return ResponseEntity.ok("Skin comprada y guardada con éxito: " + '\n' + savedSkin);
+            Optional<Skin> foundSkin = findSkin(name);
+
+            if (foundSkin.isPresent()) {
+                Skin savedSkin = foundSkin.get();
+                Skin newSkin = new Skin(
+                        savedSkin.getName(),
+                        savedSkin.getType(),
+                        savedSkin.getPrice(),
+                        savedSkin.getColor(),
+                        savedSkin.getDescription()
+                );
+                skinRepository.save(newSkin);
+                return newSkin;
+            }
+
+            Skin notFoundSkin = new Skin();
+            notFoundSkin.setName("Skin no encontrada");
+            return notFoundSkin;
         } catch (Exception e) {
-            // Maneja cualquier error que pueda ocurrir durante la compra o guardado
-            return ResponseEntity.status(500).body("Error al comprar y guardar la skin: "
-                    + e.getMessage());
+            e.printStackTrace();
+            Skin errorSkin = new Skin();
+            errorSkin.setName("Error en la compra de la skin");
+            return errorSkin;
         }
     }
-
+    /**
+     * findSkin(String targetName)
+     *
+     * Este metodo encuentra una skin por su nombre de una lista dada skins.json
+     * , simulando el consumo de una API externa
+     */
     public Optional<Skin> findSkin(String targetName) {
         ObjectMapper objectMapper = new ObjectMapper();
         TypeReference<List<Skin>> typeReference = new TypeReference<>() {
@@ -93,5 +116,23 @@ public class SkinService {
             notFoundSkin.setName("Skin no encontrada");
             return notFoundSkin;
         });
+    }
+
+    public Skin changeSkinColor(Long skinId, String newColor) {
+        Optional<Skin> optionalSkin = skinRepository.findById(skinId);
+
+        if (optionalSkin.isPresent()) {
+            Skin skin = optionalSkin.get();
+
+            if (newColor != null && !newColor.isEmpty()) {
+                skin.setColor(newColor);
+                skinRepository.save(skin);
+                return skin;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
     }
 }
