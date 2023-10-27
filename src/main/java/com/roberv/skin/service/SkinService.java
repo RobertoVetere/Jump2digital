@@ -2,6 +2,9 @@ package com.roberv.skin.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.roberv.skin.exceptions.EmptyColorException;
+import com.roberv.skin.exceptions.SkinNotFoundException;
+import com.roberv.skin.exceptions.SkinPurchaseException;
 import com.roberv.skin.models.Skin;
 import com.roberv.skin.repository.SkinRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,14 +58,9 @@ public class SkinService {
                 return newSkin;
             }
 
-            Skin notFoundSkin = new Skin();
-            notFoundSkin.setName("Skin no encontrada");
-            return notFoundSkin;
+            throw new SkinNotFoundException("Skin no encontrada");
         } catch (Exception e) {
-            e.printStackTrace();
-            Skin errorSkin = new Skin();
-            errorSkin.setName("Error en la compra de la skin");
-            return errorSkin;
+            throw new SkinPurchaseException("Error en la compra de la skin", e);
         }
     }
 
@@ -129,10 +127,10 @@ public class SkinService {
                 skinRepository.save(skin);
                 return skin;
             } else {
-                return null;
+                throw new EmptyColorException("El nuevo color no puede estar vacío.");
             }
         } else {
-            return null;
+            throw new SkinNotFoundException("No se pudo encontrar una skin con el ID proporcionado: " + skinId);
         }
     }
 }

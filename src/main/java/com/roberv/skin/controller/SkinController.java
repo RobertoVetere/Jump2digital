@@ -23,11 +23,7 @@ public class SkinController {
     @PostMapping("/buy")
     public ResponseEntity<Skin> buySkin(@RequestBody String name) {
         Skin savedSkin = skinService.buySkin(name);
-        if ("Skin no encontrada".equals(savedSkin.getName()) || "Error en la compra de la skin".equals(savedSkin.getName())) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(savedSkin);
-        }
+        return ResponseEntity.ok(savedSkin);
     }
 
     @GetMapping("/myskins")
@@ -37,21 +33,11 @@ public class SkinController {
 
     @PutMapping("/color/{id}")
     public ResponseEntity<Skin> changeSkinColor(
-            @PathVariable("id") String id,
+            @PathVariable("id") Long id,
             @RequestParam(name = "newColor", required = false) String newColor) {
 
-        if (!id.matches("\\d+")) {
-            return ResponseEntity.badRequest().body(null); // Retorna una respuesta 400 Bad Request sin contenido
-        }
-
-        Long skinId = Long.parseLong(id);
-        Skin result = skinService.changeSkinColor(skinId, newColor);
-
-        if (result != null) {
-            return ResponseEntity.ok(result);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        Skin result = skinService.changeSkinColor(id, newColor);
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/delete/{id}")
