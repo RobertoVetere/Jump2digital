@@ -7,6 +7,7 @@ import com.roberv.skin.repository.SkinRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
@@ -74,6 +75,17 @@ public class SkinService {
         } catch (Exception e) {
             e.printStackTrace();
             return new ArrayList<>();
+        }
+    }
+
+    public String deleteSkin(Long id) {
+        Optional<Skin> skin = skinRepository.findById(id);
+
+        if (skin.isPresent()) {
+            skinRepository.delete(skin.get());
+            return "Skin eliminada con éxito";
+        } else {
+            return "Skin no encontrada en tu lista";
         }
     }
 }

@@ -35,7 +35,17 @@ public class SkinController {
     }
 
     @GetMapping("/myskins")
-    public List<Skin> getMySkins() {
-        return skinService.getMySkins();
+    public List<Skin> getMySkins() {return skinService.getMySkins();}
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteSkin(@PathVariable("id") String id) {
+        if (!id.matches("\\d+")) {
+            return ResponseEntity.badRequest().body("El ID debe ser un valor numérico válido.");
+        }
+
+        Long skinId = Long.parseLong(id);
+        String result = skinService.deleteSkin(skinId);
+        return ResponseEntity.ok(result);
     }
+
 }
