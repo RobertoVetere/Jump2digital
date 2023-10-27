@@ -33,4 +33,9 @@ public class SkinController {
     public ResponseEntity<String> buySkin(@RequestBody String name) {
         return skinService.buySkin(name);
     }
+
+    @GetMapping("/myskins")
+    public List<Skin> getMySkins() {
+        return skinService.getMySkins();
+    }
 }

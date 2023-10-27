@@ -72,4 +72,16 @@ public class Skin {
     public void setDescription(String descpription) {
         this.description = descpription;
     }
+
+    @Override
+    public String toString() {
+        return "Skin{" + '\n' +
+                "id=" + id + '\n' +
+                "name='" + name + '\n' +
+                "type='" + type + '\n' +
+                "price=" + price + '\n' +
+                "color='" + color + '\n' +
+                "description='" + description + '\n' +
+                '}';
+    }
 }

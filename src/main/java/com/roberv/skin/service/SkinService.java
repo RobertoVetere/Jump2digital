@@ -14,6 +14,7 @@ import org.springframework.util.FileCopyUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,10 +42,11 @@ public class SkinService {
         try {
             Skin savedSkin = findSkin(name).get();
             skinRepository.save(savedSkin);
-            return ResponseEntity.ok("Skin comprada y guardada con éxito. ID de la skin: " + savedSkin.getId());
+            return ResponseEntity.ok("Skin comprada y guardada con éxito: " + '\n' + savedSkin);
         } catch (Exception e) {
             // Maneja cualquier error que pueda ocurrir durante la compra o guardado
-            return ResponseEntity.status(500).body("Error al comprar y guardar la skin: " + e.getMessage());
+            return ResponseEntity.status(500).body("Error al comprar y guardar la skin: "
+                    + e.getMessage());
         }
     }
 
@@ -66,4 +68,12 @@ public class SkinService {
     }
 
 
+    public List<Skin> getMySkins() {
+        try {
+            return skinRepository.findAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
 }
