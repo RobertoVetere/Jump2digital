@@ -1,5 +1,4 @@
 package com.roberv.skin.service;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.roberv.skin.models.Skin;
@@ -7,11 +6,9 @@ import com.roberv.skin.repository.SkinRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -87,5 +84,14 @@ public class SkinService {
         } else {
             return "Skin no encontrada en tu lista";
         }
+    }
+
+    public Skin getSkin(Long id) {
+        Optional<Skin> skin = skinRepository.findById(id);
+        return skin.orElseGet(() -> {
+            Skin notFoundSkin = new Skin();
+            notFoundSkin.setName("Skin no encontrada");
+            return notFoundSkin;
+        });
     }
 }
