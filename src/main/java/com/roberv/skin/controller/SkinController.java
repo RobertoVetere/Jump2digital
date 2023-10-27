@@ -24,27 +24,13 @@ public class SkinController {
     @Autowired
     SkinService skinService;
 
-    @GetMapping("/available")
+    @GetMapping("/avaible")
     public ResponseEntity<String> getAvailableSkins() {
-        try {
-            Resource resource = new ClassPathResource("skins.json");
-            InputStream inputStream = resource.getInputStream();
-            String jsonContent = new String(FileCopyUtils.copyToByteArray(inputStream), StandardCharsets.UTF_8);
-
-            return ResponseEntity.ok()
-                    .header("Content-Type", "application/json; charset=UTF-8")
-                    .body(jsonContent);
-        } catch (IOException e) {
-            return ResponseEntity.status(500).body("Error al leer el archivo JSON");
-        }
+        return skinService.getAvaiableSkins();
     }
 
     @PostMapping("/buy")
-    public ResponseEntity<Skin> buySkin(@RequestBody Skin skin) {
-        skinService.buySkin(skin);
-        return ResponseEntity.ok(skin);
+    public ResponseEntity<String> buySkin(@RequestBody String name) {
+        return skinService.buySkin(name);
     }
-
-
-
 }
