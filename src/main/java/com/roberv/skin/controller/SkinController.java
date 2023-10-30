@@ -2,6 +2,7 @@ package com.roberv.skin.controller;
 
 import com.roberv.skin.models.Skin;
 import com.roberv.skin.service.SkinService;
+import com.roberv.skin.service.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +43,7 @@ public class SkinController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteSkin(@PathVariable("id") String id) {
-        if (!id.matches("\\d+")) {
+        if (!ValidationUtils.isValidNumericId(id)) {
             return ResponseEntity.badRequest().body("El ID debe ser un valor numérico válido.");
         }
 
