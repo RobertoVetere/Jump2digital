@@ -16,22 +16,45 @@ public class SkinController {
     @Autowired
     SkinService skinService;
 
+    /**
+     * Obtiene una lista de las skins disponibles.
+     *
+     * @return Una respuesta HTTP que contiene el contenido JSON de las skins disponibles.
+     */
     @GetMapping("/avaible")
     public ResponseEntity<String> getAvailableSkins() {
         return skinService.getAvaiableSkins();
     }
 
+    /**
+     * Compra una nueva skin por nombre.
+     *
+     * @param name El nombre de la skin que se quiere comprar.
+     * @return Una respuesta HTTP que contiene la nueva skin comprada.
+     */
     @PostMapping("/buy")
     public ResponseEntity<Skin> buySkin(@RequestBody String name) {
         Skin savedSkin = skinService.buySkin(name);
         return ResponseEntity.ok(savedSkin);
     }
 
+    /**
+     * Obtiene una lista de todas las skins del usuario.
+     *
+     * @return Una lista de skins.
+     */
     @GetMapping("/myskins")
     public List<Skin> getMySkins() {
         return skinService.getAllMySkins();
     }
 
+    /**
+     * Cambia el color de una skin por su ID.
+     *
+     * @param id El ID de la skin a modificar.
+     * @param newColor El nuevo color de la skin (opcional).
+     * @return Una respuesta HTTP que contiene la skin modificada.
+     */
     @PutMapping("/color/{id}")
     public ResponseEntity<Skin> changeSkinColor(
             @PathVariable("id") Long id,
@@ -41,6 +64,12 @@ public class SkinController {
         return ResponseEntity.ok(result);
     }
 
+    /**
+     * Elimina una skin por su ID.
+     *
+     * @param id El ID de la skin a eliminar.
+     * @return Una respuesta HTTP con un mensaje indicando el resultado de la operación.
+     */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteSkin(@PathVariable("id") String id) {
         if (!ValidationUtils.isValidNumericId(id)) {
@@ -52,6 +81,12 @@ public class SkinController {
         return ResponseEntity.ok(result);
     }
 
+    /**
+     * Obtiene una skin por su ID.
+     *
+     * @param id El ID de la skin a obtener.
+     * @return Una respuesta HTTP que contiene la skin con el ID especificado.
+     */
     @GetMapping("/getskin/{id}")
     public ResponseEntity<Skin> getSkin(@PathVariable("id") String id) {
         Skin skin = skinService.getSkin(id);
