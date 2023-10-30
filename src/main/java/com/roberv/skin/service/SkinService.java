@@ -96,14 +96,12 @@ public class SkinService {
     }
 
     public String deleteSkin(Long id) {
-        Optional<Skin> skin = skinRepository.findById(id);
-
-        if (skin.isPresent()) {
-            skinRepository.delete(skin.get());
-            return "Skin eliminada con éxito";
-        } else {
-            return "Skin no encontrada en tu lista";
-        }
+        return skinRepository.findById(id)
+                .map(skin -> {
+                    skinRepository.delete(skin);
+                    return "Skin eliminada con éxito";
+                })
+                .orElse("Skin no encontrada en tu lista");
     }
 
     public Skin getSkin(String id) {
