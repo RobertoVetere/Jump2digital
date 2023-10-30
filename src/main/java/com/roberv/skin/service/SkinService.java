@@ -105,35 +105,43 @@ public class SkinService {
     }
 
     public Skin getSkin(String id) {
-        if (!id.matches("\\d+")) {
+        if (!ValidationUtils.isValidNumericId(id)) {
             throw new SkinNotFoundException("El ID debe ser un valor numérico válido.");
         }
-            Long skinId = Long.parseLong(id);
-            Optional<Skin> skin = skinRepository.findById(skinId);
-            if (skin.isPresent()) {
-                return skin.get();
-            } else {
-                throw new SkinNotFoundException("Skin no encontrada");
-            }
+
+        Long skinId = Long.parseLong(id);
+        Optional<Skin> skin = skinRepository.findById(skinId);
+
+        if (skin.isPresent()) {
+            return skin.get();
+        } else {
+            throw new SkinNotFoundException("Skin no encontrada");
+        }
     }
 
     public Skin changeSkinColor(Long skinId, String newColor) {
-        Optional<Skin> optionalSkin = skinRepository.findById(skinId);
 
-        if (optionalSkin.isPresent()) {
-            Skin skin = optionalSkin.get();
+        Optional<Skin> optionalSkin = getSkinOrThrowException(skinId);
 
-            if (newColor != null && !newColor.isEmpty()) {
-                skin.setColor(newColor);
-                skinRepository.save(skin);
-                return skin;
-            } else {
-                throw new EmptyColorException("El nuevo color no puede estar vacío.");
-            }
+        Skin skin = optionalSkin.get();
+
+        if (newColor != null && !newColor.isEmpty()) {
+            skin.setColor(newColor);
+            skinRepository.save(skin);
+            return skin;
         } else {
-            throw new SkinNotFoundException("No se pudo encontrar una skin con el ID proporcionado: " + skinId);
+            throw new EmptyColorException("El nuevo color no puede estar vacío.");
         }
     }
 
 
+    private Optional<Skin> getSkinOrThrowException(Long id) {
+        Optional<Skin> skin = skinRepository.findById(id);
+
+        if (skin.isPresent()) {
+            return skin;
+        } else {
+            throw new SkinNotFoundException("Skin no encontrada");
+        }
+    }
 }
