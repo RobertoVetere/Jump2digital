@@ -52,7 +52,7 @@ public class SkinController {
     /**
      * Cambia el color de una skin por su ID.
      *
-     * @param id El ID de la skin a modificar.
+     * @param id       El ID de la skin a modificar.
      * @param newColor El nuevo color de la skin (opcional).
      * @return Una respuesta HTTP que contiene la skin modificada en un SkinChangeColorDTO.
      */

@@ -136,7 +136,6 @@ public class SkinService {
     }
 
 
-
     /**
      * Obtiene una lista de todas las skins del usuario.
      *
@@ -200,11 +199,11 @@ public class SkinService {
     /**
      * Cambia el color de una skin por su ID.
      *
-     * @param skinId El ID de la skin a modificar.
+     * @param skinId   El ID de la skin a modificar.
      * @param newColor El nuevo color de la skin.
      * @return La skin modificada en un SkinChangeColorDTO para generar transacciones mas eficientes.
      * @throws SkinNotFoundException Si la skin no se encuentra.
-     * @throws EmptyColorException Si el nuevo color es vacío.
+     * @throws EmptyColorException   Si el nuevo color es vacío.
      */
     public SkinDTO changeSkinColor(Long skinId, String newColor) {
         Optional<Skin> optionalSkin = getSkinOrThrowException(skinId);
