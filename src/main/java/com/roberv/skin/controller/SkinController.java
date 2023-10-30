@@ -1,5 +1,6 @@
 package com.roberv.skin.controller;
 
+import com.roberv.skin.dtos.SkinChangeColorDTO;
 import com.roberv.skin.dtos.SkinDTO;
 import com.roberv.skin.models.Skin;
 import com.roberv.skin.service.SkinService;
@@ -31,7 +32,7 @@ public class SkinController {
      * Compra una nueva skin por nombre.
      *
      * @param name El nombre de la skin que se quiere comprar.
-     * @return Una respuesta HTTP que contiene la nueva skin comprada.
+     * @return Una respuesta HTTP que contiene la nueva skin comprada en un SkinDTO para generar una transacción mas ligera .
      */
     @PostMapping("/buy")
     public ResponseEntity<SkinDTO> buySkin(@RequestBody String name) {
@@ -42,7 +43,7 @@ public class SkinController {
     /**
      * Obtiene una lista de todas las skins del usuario.
      *
-     * @return Una lista de skinDTO para generar una transacción mas ligera.
+     * @return Una lista de skins.
      */
     @GetMapping("/myskins")
     public List<Skin> getMySkins() {
@@ -54,14 +55,14 @@ public class SkinController {
      *
      * @param id El ID de la skin a modificar.
      * @param newColor El nuevo color de la skin (opcional).
-     * @return Una respuesta HTTP que contiene la skin modificada.
+     * @return Una respuesta HTTP que contiene la skin modificada en un SkinChangeColorDTO.
      */
     @PutMapping("/color/{id}")
-    public ResponseEntity<Skin> changeSkinColor(
+    public ResponseEntity<SkinChangeColorDTO> changeSkinColor(
             @PathVariable("id") Long id,
             @RequestParam(name = "newColor", required = false) String newColor) {
 
-        Skin result = skinService.changeSkinColor(id, newColor);
+        SkinChangeColorDTO result = skinService.changeSkinColor(id, newColor);
         return ResponseEntity.ok(result);
     }
 

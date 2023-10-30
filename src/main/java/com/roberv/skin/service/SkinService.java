@@ -2,6 +2,7 @@ package com.roberv.skin.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.roberv.skin.dtos.SkinChangeColorDTO;
 import com.roberv.skin.dtos.SkinDTO;
 import com.roberv.skin.exceptions.EmptyColorException;
 import com.roberv.skin.exceptions.SkinNotFoundException;
@@ -160,18 +161,18 @@ public class SkinService {
      *
      * @param skinId El ID de la skin a modificar.
      * @param newColor El nuevo color de la skin.
-     * @return La skin modificada.
+     * @return La skin modificada en un SkinChangeColorDTO para generar transacciones mas eficientes.
      * @throws SkinNotFoundException Si la skin no se encuentra.
      * @throws EmptyColorException Si el nuevo color es vacío.
      */
-    public Skin changeSkinColor(Long skinId, String newColor) {
+    public SkinChangeColorDTO changeSkinColor(Long skinId, String newColor) {
         Optional<Skin> optionalSkin = getSkinOrThrowException(skinId);
         Skin skin = optionalSkin.get();
 
         if (newColor != null && !newColor.isEmpty()) {
             skin.setColor(newColor);
             skinRepository.save(skin);
-            return skin;
+            return new SkinChangeColorDTO(skin.getId(), skin.getName(), skin.getColor());
         } else {
             throw new EmptyColorException("El nuevo color no puede estar vacío.");
         }
