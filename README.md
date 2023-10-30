@@ -19,9 +19,9 @@ Antes de utilizar esta API, asegúrate de cumplir con los siguientes requisitos:
 La estructura de datos para representar las skins incluye los siguientes campos:
 
 - `id`: Identificador único de la skin.
-- `nombre`: Nombre de la skin.
-- `tipo`: Tipo de skin.
-- `precio`: Precio de la skin.
+- `name`: Nombre de la skin.
+- `type`: Tipo de skin.
+- `price`: Precio de la skin.
 - `color`: Color de la skin.
 - `description`: Descripción de la skin.
 ---
@@ -129,7 +129,7 @@ relacionados con las skins.
 ### Creación de Excepciones Personalizadas:
 
 Para manejar excepciones de manera efectiva, hemos implementado excepciones personalizadas, 
-como SkinNotFoundException, SkinPurchaseException, EmptyColorException, y ValidationUtils. 
+como **SkinNotFoundException**, **SkinPurchaseException** y **EmptyColorException**. 
 Cada excepción se lanza en situaciones específicas, permitiendo una gestión de errores más 
 precisa y significativa. Esta personalización de excepciones es especialmente útil para 
 proporcionar mensajes de error claros y detallados a los usuarios y desarrolladores.
