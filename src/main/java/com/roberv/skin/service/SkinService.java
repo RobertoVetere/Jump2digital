@@ -2,11 +2,13 @@ package com.roberv.skin.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.roberv.skin.dtos.SkinDTO;
 import com.roberv.skin.exceptions.EmptyColorException;
 import com.roberv.skin.exceptions.SkinNotFoundException;
 import com.roberv.skin.exceptions.SkinPurchaseException;
 import com.roberv.skin.models.Skin;
 import com.roberv.skin.repository.SkinRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -22,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class SkinService {
 
     @Autowired
@@ -50,11 +53,11 @@ public class SkinService {
      * Compra una nueva skin por nombre.
      *
      * @param name El nombre de la skin que se quiere comprar.
-     * @return La nueva skin comprada.
+     * @return La nueva skin comprada en un SkinDTO con la información necesaria.
      * @throws SkinNotFoundException Si la skin no se encuentra.
      * @throws SkinPurchaseException Si ocurre un error en la compra.
      */
-    public Skin buySkin(String name) {
+    public SkinDTO buySkin(String name) {
         Optional<Skin> foundSkin = findSkinOnJson(name);
 
         try {
@@ -68,9 +71,10 @@ public class SkinService {
                         savedSkin.getDescription()
                 );
                 skinRepository.save(newSkin);
-                return newSkin;
+                return new SkinDTO(newSkin.getName(), newSkin.getType(), newSkin.getPrice(), newSkin.getColor());
+            } else {
+                throw new SkinNotFoundException("Skin no encontrada");
             }
-            throw new SkinNotFoundException("Skin no encontrada");
         } catch (Exception e) {
             throw new SkinPurchaseException("Error en la compra de la skin, no hay una skin disponible con ese nombre", e);
         }

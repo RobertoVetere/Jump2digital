@@ -1,5 +1,6 @@
 package com.roberv.skin.controller;
 
+import com.roberv.skin.dtos.SkinDTO;
 import com.roberv.skin.models.Skin;
 import com.roberv.skin.service.SkinService;
 import com.roberv.skin.service.ValidationUtils;
@@ -33,15 +34,15 @@ public class SkinController {
      * @return Una respuesta HTTP que contiene la nueva skin comprada.
      */
     @PostMapping("/buy")
-    public ResponseEntity<Skin> buySkin(@RequestBody String name) {
-        Skin savedSkin = skinService.buySkin(name);
+    public ResponseEntity<SkinDTO> buySkin(@RequestBody String name) {
+        SkinDTO savedSkin = skinService.buySkin(name);
         return ResponseEntity.ok(savedSkin);
     }
 
     /**
      * Obtiene una lista de todas las skins del usuario.
      *
-     * @return Una lista de skins.
+     * @return Una lista de skinDTO para generar una transacción mas ligera.
      */
     @GetMapping("/myskins")
     public List<Skin> getMySkins() {
