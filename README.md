@@ -54,7 +54,7 @@ git clone https://github.com/tuusuario/tu-repo.git
 cd tu-repo
 mvn spring-boot:run
 
-La aplicación se ejecutará en http://localhost:8080. Puedes acceder a la documentación de Swagger y probar la API o bien usar postman tal y como indico a continuación.
+La aplicación se ejecutará en http://localhost:8080. Puedes acceder a la documentación de Swagger y probar la API o bien usar Postman tal y como indico a continuación.
 
 ```
 ## Documentación de Postman
