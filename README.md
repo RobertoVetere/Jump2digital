@@ -9,9 +9,21 @@ Esta API permite a las personas usuarias consultar, adquirir, modificar y elimin
 
 Antes de utilizar esta API, asegúrate de cumplir con los siguientes requisitos:
 
-- Java JDK instalado.
-- Maven instalado.
+- [Java JDK 11](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html).
+- [Maven](https://maven.apache.org/download.cgi) instalado.
 - MySQL configurado y accesible.
+---
+
+## Dependencias del Proyecto
+
+- [spring-boot-starter-data-jpa](https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa)
+- [spring-boot-starter-web](https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web)
+- [springdoc-openapi-starter-webmvc-ui](https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui)
+- [spring-boot-devtools](https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-devtools)
+- [mysql-connector-j](https://mvnrepository.com/artifact/mysql/mysql-connector-java)
+- [spring-boot-starter-test](https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test)
+- [jackson-databind](https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind)
+- [swagger-annotations](https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations)
 ---
 
 ## Modelo de Skin
