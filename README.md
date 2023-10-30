@@ -3,6 +3,8 @@
 
 Esta API permite a las personas usuarias consultar, adquirir, modificar y eliminar skins para un videojuego. Está construida en Java Spring Boot y utiliza Swagger para la documentación. Los usuarios pueden interactuar con la API a través de Postman para probar sus funcionalidades.
 
+---
+
 ## Requisitos
 
 Antes de utilizar esta API, asegúrate de cumplir con los siguientes requisitos:
@@ -10,6 +12,7 @@ Antes de utilizar esta API, asegúrate de cumplir con los siguientes requisitos:
 - Java JDK instalado.
 - Maven instalado.
 - MySQL configurado y accesible.
+---
 
 ## Modelo de Skin
 
@@ -21,6 +24,7 @@ La estructura de datos para representar las skins incluye los siguientes campos:
 - `precio`: Precio de la skin.
 - `color`: Color de la skin.
 - `description`: Descripción de la skin.
+---
 
 ## Configuración de la Base de Datos
 
@@ -32,6 +36,8 @@ Esta API se conecta a una base de datos para almacenar las skins adquiridas por 
 
 ![image](https://github.com/RobertoVetere/jump-2-digital-prueba/assets/42187726/ae212d4b-58bb-4d06-86bb-813774068d9a)
 
+---
+
 ## Rutas de la API
 
 La API ofrece las siguientes rutas:
@@ -42,6 +48,7 @@ La API ofrece las siguientes rutas:
 - `PUT /skins/color`: Permite a los usuarios cambiar el color de una skin comprada.
 - `DELETE /skins/delete/{id}`: Permite a los usuarios eliminar una skin comprada.
 - `GET /skin/getskin/{id}`: Devuelve una determinada skin.
+---
 
 ## Ejecución del Proyecto
 
@@ -57,6 +64,8 @@ mvn spring-boot:run
 La aplicación se ejecutará en http://localhost:8080. Puedes acceder a la documentación de Swagger y probar la API o bien usar Postman tal y como indico a continuación.
 
 ```
+
+---
 ## Documentación de Postman
 
 Dispones de una colección de Postman que te permitirá probar las rutas de la API de forma sencilla. Sigue estos pasos para descargar e importar la colección en tu aplicación Postman:
@@ -81,13 +90,71 @@ Dispones de una colección de Postman que te permitirá probar las rutas de la A
 
 Esta colección de Postman te facilitará la interacción y prueba de la API de Skins para Videojuegos.
 
+---
+
 ## Documentación de Swagger
 
-Puedes acceder a la documentación de la API y probar sus rutas utilizando Swagger. Para acceder a la documentación, ejecuta el proyecto y visita la siguiente URL en tu navegador:
+Puedes acceder a la documentación de la API y probar sus rutas utilizando Swagger. Para acceder 
+a la documentación, ejecuta el proyecto y visita la siguiente URL en tu navegador:
 
 [http://localhost:8080/swagger-ui.html](http://localhost:8080/doc/swagger-ui/index.html)
 
-Swagger proporciona una interfaz interactiva para explorar y probar todas las funcionalidades de la API.
+Swagger proporciona una interfaz interactiva para explorar y probar todas las funcionalidades 
+de la API.
+
+---
+
+## Desafíos e Implementación
+
+### Definir el Modelo de Skin (Requisito 1):
+
+El modelo de Skin se define en el paquete com.roberv.skin.models. Hemos enfrentado el desafío 
+de diseñar una estructura de datos que contemple campos como id, nombre, tipo, precio, color y 
+descripción., garantizando que esta estructura sea eficiente y escalable.
+
+### Implementar una función para leer las skins disponibles desde un archivo (Requisito 2):
+
+Uno de los desafíos clave fue cargar las skins disponibles desde un archivo JSON. Para 
+resolverlo, hemos utilizado la biblioteca Jackson para mapear los datos del archivo a objetos 
+Java. Esto permite a la aplicación acceder a las skins disponibles de manera eficiente.
+
+### Configurar la Base de Datos (Requisito 3):
+
+Conectar la aplicación a una base de datos (MySQL) planteó el desafío de establecer 
+la configuración y la 
+integración adecuadas. Hemos optado por utilizar el repositorio SkinRepository para 
+interactuar con la base de datos, permitiendo así la persistencia y recuperación de datos 
+relacionados con las skins.
+
+### Creación de Excepciones Personalizadas:
+
+Para manejar excepciones de manera efectiva, hemos implementado excepciones personalizadas, 
+como SkinNotFoundException, SkinPurchaseException, EmptyColorException, y ValidationUtils. 
+Cada excepción se lanza en situaciones específicas, permitiendo una gestión de errores más 
+precisa y significativa. Esta personalización de excepciones es especialmente útil para 
+proporcionar mensajes de error claros y detallados a los usuarios y desarrolladores.
+
+### Creación de las siguientes rutas de la API (Requisito 4):
+
+La creación de rutas de la API en el controlador SkinController fue un paso fundamental en el 
+cumplimiento de los requisitos. Cada ruta cumple con una función específica, como obtener skins 
+disponibles, permitir a los usuarios comprar skins, listar las skins del usuario y más.
+
+### Implementación del DTO con el Patrón Builder:
+
+Uno de los aspectos clave de la implementación es el uso del patrón Builder en el SkinDTO. 
+Esto resuelve el desafío de construir objetos complejos, ya que permite configurar un objeto 
+DTO de manera más legible y mantenerlo inmutable. El patrón Builder se utiliza en la creación 
+de objetos SkinDTO, proporcionando una forma clara y eficiente de construir instancias de DTO 
+con varios campos. Esto contribuye a que la aplicación sea escalable y a la vez garantiza una 
+estructura de datos eficiente en las respuestas API.
+
+
+## Documentación en el Readme:
+
+El archivo README del repositorio contiene documentación detallada que describe cómo se han 
+cumplido los requisitos específicos de la prueba técnica. También proporciona una guía para 
+ejecutar la aplicación localmente, lo que facilita la comprensión y el uso de la aplicación.
 
 Desarrollado por Roberto Vetere
 Contacto: [roberto.vetere@gmail.com](mailto:roberto.vetere@gmail.com) | Teléfono: 615-605-208
