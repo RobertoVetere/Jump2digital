@@ -141,13 +141,21 @@ public class SkinService {
      * Obtiene una lista de todas las skins del usuario.
      *
      * @return Una lista de skins.
+     * @throws SkinNotFoundException Si ocurre un error al obtener las skins del usuario.
      */
-    public List<Skin> getAllMySkins() {
+    public List<SkinDTO> getAllMySkins() {
         try {
-            return skinRepository.findAll();
+            List<Skin> skinsList = skinRepository.findAll();
+            List<SkinDTO> skinDTOs = new ArrayList<>();
+
+            for (Skin skin : skinsList) {
+                SkinDTO skinDTO = convertToSkinDTO(skin);
+                skinDTO.setId(skin.getId());
+                skinDTOs.add(skinDTO);
+            }
+            return skinDTOs;
         } catch (Exception e) {
-            e.printStackTrace();
-            return new ArrayList<>();
+            throw new SkinNotFoundException("Error al obtener las skins del usuario", e);
         }
     }
 

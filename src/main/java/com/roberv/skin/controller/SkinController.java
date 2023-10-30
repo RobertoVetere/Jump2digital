@@ -45,7 +45,7 @@ public class SkinController {
      * @return Una lista de skins.
      */
     @GetMapping("/myskins")
-    public List<Skin> getMySkins() {
+    public List<SkinDTO> getMySkins() {
         return skinService.getAllMySkins();
     }
 
