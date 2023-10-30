@@ -1,5 +1,6 @@
 package com.roberv.skin.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.roberv.skin.dtos.SkinChangeColorDTO;
@@ -11,15 +12,11 @@ import com.roberv.skin.models.Skin;
 import com.roberv.skin.repository.SkinRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileCopyUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,21 +29,46 @@ public class SkinService {
     SkinRepository skinRepository;
 
     /**
+     * Busca una skin por nombre en la lista de skins cargada desde un archivo JSON.
+     *
+     * @param targetName El nombre de la skin a buscar.
+     * @return Una skin opcional encontrada por nombre.
+     * @throws SkinNotFoundException Si la skin no se encuentra en la lista de skins.
+     */
+    public Optional<Skin> findSkinByNameOnJson(String targetName) {
+        List<Skin> skins = loadSkinsFromJson();
+        return skins.stream()
+                .filter(skin -> skin.getName().equalsIgnoreCase(targetName))
+                .findFirst();
+    }
+
+    /**
      * Obtiene una lista de las skins disponibles desde un archivo JSON.
      *
-     * @return Una respuesta HTTP que contiene el contenido JSON de las skins disponibles.
+     * @return Una lista de skins disponibles.
      */
-    public ResponseEntity<String> getAvaiableSkins() {
-        try {
-            Resource resource = new ClassPathResource("skins.json");
-            InputStream inputStream = resource.getInputStream();
-            String jsonContent = new String(FileCopyUtils.copyToByteArray(inputStream), StandardCharsets.UTF_8);
+    public List<SkinDTO> getAvailableSkins() {
+        List<Skin> skins = loadSkinsFromJson();
+        List<SkinDTO> skinDTOs = new ArrayList<>();
 
-            return ResponseEntity.ok()
-                    .header("Content-Type", "application/json; charset=UTF-8")
-                    .body(jsonContent);
+        for (Skin skin : skins) {
+            SkinDTO skinDTO = new SkinDTO(skin.getName(), skin.getType(), skin.getPrice(),
+                    skin.getColor(), skin.getDescription());
+            skinDTOs.add(skinDTO);
+        }
+
+        return skinDTOs;
+    }
+
+    private List<Skin> loadSkinsFromJson() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        TypeReference<List<Skin>> typeReference = new TypeReference<>() {
+        };
+
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("skins.json")) {
+            return objectMapper.readValue(inputStream, typeReference);
         } catch (IOException e) {
-            return ResponseEntity.status(500).body("Error al leer el archivo JSON");
+            throw new SkinNotFoundException("Esta Skin no existe en la lista de Skins");
         }
     }
 
@@ -59,50 +81,59 @@ public class SkinService {
      * @throws SkinPurchaseException Si ocurre un error en la compra.
      */
     public SkinDTO buySkin(String name) {
-        Optional<Skin> foundSkin = findSkinOnJson(name);
+        Optional<Skin> foundSkin = findSkinByNameOnJson(name);
 
-        try {
-            if (foundSkin.isPresent()) {
-                Skin savedSkin = foundSkin.get();
-                Skin newSkin = new Skin(
-                        savedSkin.getName(),
-                        savedSkin.getType(),
-                        savedSkin.getPrice(),
-                        savedSkin.getColor(),
-                        savedSkin.getDescription()
-                );
-                skinRepository.save(newSkin);
-                return new SkinDTO(newSkin.getName(), newSkin.getType(), newSkin.getPrice(), newSkin.getColor());
-            } else {
-                throw new SkinNotFoundException("Skin no encontrada");
-            }
-        } catch (Exception e) {
-            throw new SkinPurchaseException("Error en la compra de la skin, no hay una skin disponible con ese nombre", e);
+        if (foundSkin.isPresent()) {
+            Skin savedSkin = foundSkin.get();
+            Skin newSkin = createNewSkin(savedSkin);
+            saveSkin(newSkin);
+            return convertToSkinDTO(newSkin);
+        } else {
+            throw new SkinNotFoundException("Skin no encontrada, no hay una skin disponible con ese nombre");
         }
     }
 
     /**
-     * Este método encuentra una skin por su nombre en una lista simulada de skins desde un archivo JSON.
+     * Crea una nueva skin con los datos de una skin existente.
      *
-     * @param targetName El nombre de la skin a buscar.
-     * @return Una skin opcional encontrada por nombre.
-     * @throws SkinNotFoundException Si la skin no se encuentra en la lista simulada de skins.
+     * @param savedSkin La skin existente.
+     * @return La nueva skin creada.
      */
-    public Optional<Skin> findSkinOnJson(String targetName) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        TypeReference<List<Skin>> typeReference = new TypeReference<>() {
-        };
+    private Skin createNewSkin(Skin savedSkin) {
+        return new Skin(
+                savedSkin.getName(),
+                savedSkin.getType(),
+                savedSkin.getPrice(),
+                savedSkin.getColor(),
+                savedSkin.getDescription()
+        );
+    }
 
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("skins.json")) {
-            List<Skin> skins = objectMapper.readValue(inputStream, typeReference);
-
-            return skins.stream()
-                    .filter(skin -> skin.getName().equalsIgnoreCase(targetName))
-                    .findFirst();
-        } catch (IOException e) {
-            throw new SkinNotFoundException("Está Skin no existe en la lista de Skins");
+    /**
+     * Guarda una skin en el repositorio.
+     *
+     * @param newSkin La nueva skin a guardar.
+     * @throws SkinPurchaseException Si ocurre un error al guardar la skin.
+     */
+    private void saveSkin(Skin newSkin) {
+        try {
+            skinRepository.save(newSkin);
+        } catch (Exception e) {
+            throw new SkinPurchaseException("Error en la compra de la skin, no se pudo guardar la nueva skin", e);
         }
     }
+
+    /**
+     * Convierte una Skin en un SkinDTO.
+     *
+     * @param skin La skin a convertir.
+     * @return El SkinDTO resultante.
+     */
+    private SkinDTO convertToSkinDTO(Skin skin) {
+        return new SkinDTO(skin.getName(), skin.getType(), skin.getPrice(), skin.getColor());
+    }
+
+
 
     /**
      * Obtiene una lista de todas las skins del usuario.
@@ -147,7 +178,7 @@ public class SkinService {
         }
 
         Long skinId = Long.parseLong(id);
-        Optional<Skin> skin = skinRepository.findById(skinId);
+        Optional<Skin> skin = getSkinOrThrowException(skinId);
 
         if (skin.isPresent()) {
             return skin.get();

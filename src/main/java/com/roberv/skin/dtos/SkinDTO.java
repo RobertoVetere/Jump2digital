@@ -6,6 +6,8 @@ public class SkinDTO {
     private double price;
     private String color;
 
+    private String description;
+
     public SkinDTO() {
     }
 
@@ -14,6 +16,11 @@ public class SkinDTO {
         this.type = type;
         this.price = price;
         this.color = color;
+    }
+
+    public SkinDTO(String name, String type, double price, String color, String description) {
+        this(name, type, price, color);
+        this.description = description;
     }
 
     public String getName() {
@@ -46,5 +53,13 @@ public class SkinDTO {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

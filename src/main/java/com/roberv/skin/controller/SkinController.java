@@ -24,8 +24,8 @@ public class SkinController {
      * @return Una respuesta HTTP que contiene el contenido JSON de las skins disponibles.
      */
     @GetMapping("/avaible")
-    public ResponseEntity<String> getAvailableSkins() {
-        return skinService.getAvaiableSkins();
+    public List<SkinDTO> getAvailableSkins() {
+        return skinService.getAvailableSkins();
     }
 
     /**
