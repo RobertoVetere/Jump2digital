@@ -169,5 +169,5 @@ cumplido los requisitos específicos de la prueba técnica. También proporciona
 ejecutar la aplicación localmente, lo que facilita la comprensión y el uso de la aplicación.
 
 Desarrollado por Roberto Vetere
-Contacto: [roberto.vetere@gmail.com](mailto:roberto.vetere@gmail.com) | Teléfono: 615-605-208
+Contacto: [roberto.vetere@gmail.com](mailto:roberto.vetere@gmail.com) | Teléfono: +34 615-605-208
 
