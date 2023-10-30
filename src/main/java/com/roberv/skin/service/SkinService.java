@@ -1,9 +1,7 @@
 package com.roberv.skin.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.roberv.skin.dtos.SkinChangeColorDTO;
 import com.roberv.skin.dtos.SkinDTO;
 import com.roberv.skin.exceptions.EmptyColorException;
 import com.roberv.skin.exceptions.SkinNotFoundException;
@@ -12,7 +10,6 @@ import com.roberv.skin.models.Skin;
 import com.roberv.skin.repository.SkinRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -52,8 +49,7 @@ public class SkinService {
         List<SkinDTO> skinDTOs = new ArrayList<>();
 
         for (Skin skin : skins) {
-            SkinDTO skinDTO = new SkinDTO(skin.getName(), skin.getType(), skin.getPrice(),
-                    skin.getColor(), skin.getDescription());
+            SkinDTO skinDTO = convertToSkinDTO(skin);
             skinDTOs.add(skinDTO);
         }
 
@@ -130,7 +126,13 @@ public class SkinService {
      * @return El SkinDTO resultante.
      */
     private SkinDTO convertToSkinDTO(Skin skin) {
-        return new SkinDTO(skin.getName(), skin.getType(), skin.getPrice(), skin.getColor());
+        return new SkinDTO.Builder()
+                .name(skin.getName())
+                .type(skin.getType())
+                .price(skin.getPrice())
+                .color(skin.getColor())
+                .description(skin.getDescription())
+                .build();
     }
 
 
@@ -196,14 +198,18 @@ public class SkinService {
      * @throws SkinNotFoundException Si la skin no se encuentra.
      * @throws EmptyColorException Si el nuevo color es vacío.
      */
-    public SkinChangeColorDTO changeSkinColor(Long skinId, String newColor) {
+    public SkinDTO changeSkinColor(Long skinId, String newColor) {
         Optional<Skin> optionalSkin = getSkinOrThrowException(skinId);
         Skin skin = optionalSkin.get();
 
         if (newColor != null && !newColor.isEmpty()) {
             skin.setColor(newColor);
             skinRepository.save(skin);
-            return new SkinChangeColorDTO(skin.getId(), skin.getName(), skin.getColor());
+            return new SkinDTO.Builder()
+                    .id(skin.getId())
+                    .name(skin.getName())
+                    .color(skin.getColor())
+                    .build();
         } else {
             throw new EmptyColorException("El nuevo color no puede estar vacío.");
         }

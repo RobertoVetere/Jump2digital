@@ -1,6 +1,5 @@
 package com.roberv.skin.controller;
 
-import com.roberv.skin.dtos.SkinChangeColorDTO;
 import com.roberv.skin.dtos.SkinDTO;
 import com.roberv.skin.models.Skin;
 import com.roberv.skin.service.SkinService;
@@ -58,11 +57,11 @@ public class SkinController {
      * @return Una respuesta HTTP que contiene la skin modificada en un SkinChangeColorDTO.
      */
     @PutMapping("/color/{id}")
-    public ResponseEntity<SkinChangeColorDTO> changeSkinColor(
+    public ResponseEntity<SkinDTO> changeSkinColor(
             @PathVariable("id") Long id,
             @RequestParam(name = "newColor", required = false) String newColor) {
 
-        SkinChangeColorDTO result = skinService.changeSkinColor(id, newColor);
+        SkinDTO result = skinService.changeSkinColor(id, newColor);
         return ResponseEntity.ok(result);
     }
 
