@@ -19,7 +19,7 @@ Esta API permite a las personas usuarias consultar, adquirir, modificar y elimin
 
 ---
 
-### Requisitos
+## Requisitos
 
 Antes de utilizar esta API, asegúrate de cumplir con los siguientes requisitos:
 
@@ -28,7 +28,7 @@ Antes de utilizar esta API, asegúrate de cumplir con los siguientes requisitos:
 - MySQL configurado y accesible.
 ---
 
-### Dependencias del Proyecto
+## Dependencias del Proyecto
 
 - [spring-boot-starter-data-jpa](https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa)
 - [spring-boot-starter-web](https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web)
@@ -40,7 +40,7 @@ Antes de utilizar esta API, asegúrate de cumplir con los siguientes requisitos:
 - [swagger-annotations](https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations)
 ---
 
-### Modelo de Skin
+## Modelo de Skin
 
 La estructura de datos para representar las skins incluye los siguientes campos:
 
@@ -52,7 +52,7 @@ La estructura de datos para representar las skins incluye los siguientes campos:
 - `description`: Descripción de la skin.
 ---
 
-### Configuración de la Base de Datos
+## Configuración de la Base de Datos
 
 Esta API se conecta a una base de datos para almacenar las skins adquiridas por los usuarios. Yo he legido MySQL para la configuración. Para configurar la base de datos, asegúrate de que la conexión esté definida en `application.properties`.
 
@@ -64,7 +64,7 @@ Esta API se conecta a una base de datos para almacenar las skins adquiridas por 
 
 ---
 
-### Rutas de la API
+## Rutas de la API
 
 La API ofrece las siguientes rutas:
 
@@ -76,7 +76,7 @@ La API ofrece las siguientes rutas:
 - `GET /skin/getskin/{id}`: Devuelve una determinada skin.
 ---
 
-### Ejecución del Proyecto
+## Ejecución del Proyecto
 
 Sigue estos pasos para ejecutar el proyecto:
 
@@ -92,7 +92,7 @@ La aplicación se ejecutará en http://localhost:8080. Puedes acceder a la docum
 ```
 
 ---
-### Documentación de Postman
+## Documentación de Postman
 
 Dispones de una colección de Postman que te permitirá probar las rutas de la API de forma sencilla. Sigue estos pasos para descargar e importar la colección en tu aplicación Postman:
 
@@ -118,7 +118,7 @@ Esta colección de Postman te facilitará la interacción y prueba de la API de 
 
 ---
 
-### Documentación de Swagger
+## Documentación de Swagger
 
 Puedes acceder a la documentación de la API y probar sus rutas utilizando Swagger. Para acceder 
 a la documentación, ejecuta el proyecto y visita la siguiente URL en tu navegador:
@@ -130,7 +130,7 @@ de la API.
 
 ---
 
-### Desafíos e Implementación
+## Desafíos e Implementación
 
 ### Definir el Modelo de Skin (Requisito 1):
 
