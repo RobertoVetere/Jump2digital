@@ -5,7 +5,7 @@ Esta API permite a las personas usuarias consultar, adquirir, modificar y elimin
 
 ---
 
-## Table of Contents
+## Tabla de contenidos
 - [Requisitos](#requisitos)
 - [Dependencias del Proyecto](#dependencias-del-proyecto)
 - [Modelo de Skin](#modelo-de-skin)
